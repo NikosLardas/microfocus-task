@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -8,18 +9,21 @@ import { HomeComponent } from './home/home.component';
 import { MainService } from './services/main.service';
 import { PostFormComponent } from './post-form/post-form.component';
 import { LoginComponent } from './login/login.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     PostFormComponent,
-    LoginComponent
+    LoginComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [MainService],
   bootstrap: [AppComponent]

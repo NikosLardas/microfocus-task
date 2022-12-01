@@ -1,1 +1,36 @@
-<p>login works!</p>
+<div id="login">
+
+  <div id="navbar">
+    <nav class="navbar navbar-brand navbar-dark bg-primary py-1">
+      <div class="fs-2 ms-5">
+      Log in
+      </div>
+    </nav>
+  </div>
+
+  <div class="d-flex justify-content-center align-items-center h-100 p-5 m-5 ">
+
+    <form [formGroup]='loginForm' (ngSubmit)='formSubmit()' class="w-25 mt-5 input-group input-group-sm" novalidate>
+
+      <label for="username" class="form-label fs-5">User name</label>
+      <input type="text" id="username" formControlName="username" 
+                                       class="form-control w-100 rounded-0 border border-secondary border-3 " 
+                                       placeholder="Please enter your username"
+                                       [ngClass]=" loginForm.invalid? 'border-danger' : 'border-secondary'">
+                                       <!-- PUT CORRECT CHECKING VARIABLE HERE -->
+
+      <div class="alert alert-danger"
+      *ngIf="loginForm.get('username')?.errors?.['required'] && loginForm.get('username')?.touched">
+      Please enter your username to continue
+      </div>
+
+      <!-- Fix later for error message on submit if wrong username -->
+      <div class="alert alert-danger"
+      *ngIf="">
+      Not a valid user name!
+      </div>
+
+    </form>
+  </div>
+
+</div>
