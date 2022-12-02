@@ -8,17 +8,17 @@
           </div>
           <div id="status-message">
             <div  class="mx-5 mt-1" *ngIf="userLoggedIn; else notLoggedInMessage">
-              <span class="me-4">Welcome {{currentUser.name}}!</span>
-              <button type="button" class="btn btn-primary border border-2 bg-success py-0 px-5 mb-1 me-2 rounded-5">
+              <span class="me-4 fs-6">Welcome {{currentUser.name}}!</span>
+              <button type="button" class="btn btn-primary border border-3 border-secondary bg-success py-0 px-3 mb-1 me-3 rounded-5 ">
                 New Post
               </button>
-              <button type="button" class="btn btn-primary border border-2 bg-success py-0 px-5 mb-1 rounded-5">
+              <button type="button" class="btn btn-primary border border-3 border-secondary bg-success py-0 px-4 mb-1 rounded-5">
                   Log out
               </button>
             </div>
             <ng-template #notLoggedInMessage >
               <span class="me-4">You are not logged in</span>
-              <button type="button" (click)="navigatePostForm()" class="btn btn-primary border border-2 bg-success py-0 px-5 mb-1 rounded-5">
+              <button type="button" (click)="navigatePostForm()" class="btn btn-primary border border-3 border-secondary bg-success py-0 px-5 mb-1 rounded-5">
                   Log in
               </button>
             </ng-template>

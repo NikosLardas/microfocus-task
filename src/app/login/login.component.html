@@ -12,25 +12,30 @@
 
     <form [formGroup]='loginForm' (ngSubmit)='formSubmit()' class="w-25 mt-5 input-group input-group-sm" novalidate>
 
-      <label for="username" class="form-label fs-5">User name</label>
+      <label for="username" class="form-label fs-5 fw-bold">User name</label>
       <input type="text" id="username" formControlName="username" 
                                        class="form-control w-100 rounded-0 border border-secondary border-3 " 
                                        placeholder="Please enter your username"
-                                       [ngClass]=" loginForm.invalid? 'border-danger' : 'border-secondary'">
-                                       <!-- PUT CORRECT CHECKING VARIABLE HERE -->
+                                       [ngClass]=" userExists? 'border-secondary' : 'border-danger'">
 
-      <div class="alert alert-danger"
+      <div class="alert alert-danger w-100"
       *ngIf="loginForm.get('username')?.errors?.['required'] && loginForm.get('username')?.touched">
       Please enter your username to continue
       </div>
+ 
+      <div class="d-flex justify-content-end w-100">
+        <button [disabled]='loginForm.invalid' type="submit" class="btn btn-primary border border-3 border-secondary bg-success mt-3 px-4 py-0 rounded-5">
+          Log in
+        </button>
+      </div>
 
-      <!-- Fix later for error message on submit if wrong username -->
-      <div class="alert alert-danger"
-      *ngIf="">
+      <div class="text-danger fw-bold mt-2"
+      *ngIf="!userExists && loginForm.get('username')?.dirty">
       Not a valid user name!
       </div>
 
     </form>
+
   </div>
 
 </div>
