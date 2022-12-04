@@ -1,6 +1,6 @@
 
 <div id="navbar-form">
-    <nav class="navbar navbar-brand navbar-dark bg-primary py-1">
+    <nav class="navbar text-white navbar-dark bg-primary py-1">
     <div class="container-fluid justify-content-between">
         <div class="ms-5">
             <!-- fix this add variable -->
@@ -42,7 +42,7 @@
         <!-- Required and touched validation -->
         <div class="alert alert-danger"
         *ngIf=" postForm.get('message')?.errors?.['required'] && postForm.get('message')?.touched">
-        Please select a Database
+        Please insert a post message
         </div>
 
         <!-- Max Length and touched validation -->
