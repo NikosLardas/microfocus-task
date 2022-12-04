@@ -15,10 +15,15 @@ export class HomeComponent implements OnInit {
   users!: User[];
   posts!: Post[];
   userPosts: UserPost[] = [];
-  firstLoad: boolean = true;
   loading: boolean = true;
   userLoggedIn: boolean = false;
   currentUser!: User;
+  
+  // Pagination variables
+  numberOfPages!: number;
+  currentPage: number = 1;
+  currentIndex: number = 10;
+  paginatedResults!: UserPost[];
 
   constructor(private service: MainService, private router: Router) { }
 
@@ -26,39 +31,34 @@ export class HomeComponent implements OnInit {
 
     let currentUserId = localStorage.getItem("userId");
 
-    // I could potentially add the user handling in 
-    // a different separate method to be called from onInit
-    
-    if(sessionStorage.getItem("loaded") == null) {
-      
-      this.firstLoad = false;
+    // Maybe separate things to different methods to be clear
 
-      this.service.getAllData().subscribe({
-        next: data => {
-          this.users = data[0];
-          this.posts = data[1];
-          this.service.users = this.users;
+    // UserPosts in localStorage should be encrypted
 
-          if (currentUserId != null) {
-            this.service.currentUser = this.users.find(user => user.id.toString() == currentUserId)!;
-            this.userLoggedIn = true;
-            this.currentUser = this.service.currentUser;
-          }
+    this.service.getAllData().subscribe({
+      next: data => {
+        this.users = data[0];
+        this.posts = data[1];
+        this.service.users = this.users;
 
-          sessionStorage.setItem("loaded","true");
-        },
-        error: error => console.log(error),
-        complete: () => this.createUserPosts()
-      });
-    } else {
-
-      if(currentUserId != null) {
-        this.userLoggedIn = true;
-        this.currentUser = this.service.currentUser;
+        if (currentUserId != null) {
+          this.service.currentUser = this.users.find(user => user.id.toString() == currentUserId)!;
+          this.userLoggedIn = true;
+          this.currentUser = this.service.currentUser;
+        }
+      },
+      error: error => console.log(error),
+      complete: () => {
+        if (localStorage.getItem('userPosts') == null) {
+          this.createUserPosts();
+        } else {
+          this.userPosts = JSON.parse(localStorage.getItem('userPosts')!);
+          this.loading = false;
+          this.service.userPosts = this.userPosts
+          this.handlePagination();
+        }
       }
-      this.createUserPosts();
-      this.loading = false;
-    }
+    });
   }
 
   createUserPosts() {
@@ -68,12 +68,62 @@ export class HomeComponent implements OnInit {
         if(user.id == post.userId) this.userPosts.push(new UserPost(user.name,user.company.name,post.title,post.body,`http://www.${user.website}`));
       }
     }
+
+    localStorage.setItem("userPosts", JSON.stringify(this.userPosts));
     
     this.loading = false;
     this.service.userPosts = this.userPosts;
+
+    this.handlePagination();
   }
 
-  navigatePostForm() {
+  handlePagination() {
+    this.numberOfPages = Math.ceil(this.userPosts.length/10);
+    this.paginatedResults = this.userPosts.slice(this.currentIndex - 10, this.currentIndex);
+  }
+
+  navigateLogin() {
     this.router.navigateByUrl('/login');
+  }
+
+  navigateAddPost() {
+    this.router.navigateByUrl('/post/add');
+  }
+
+  logout() {
+    localStorage.removeItem("userId");
+    window.location.reload();
+  }
+
+  // Navigate to the previous Table Page
+  navigatePreviousPage() {
+    // If the user is not on the First Table Page
+    if ((this.currentPage - 1) >= 1) {
+
+      // Reduce currentPage by one
+      this.currentPage = this.currentPage - 1;
+
+      // Load previous 10 Article Records
+      this.paginatedResults = this.userPosts.slice(this.currentIndex - 20, this.currentIndex - 10);
+      
+      // Move the list index accordingly
+      this.currentIndex = this.currentIndex - 10;
+    }
+  }
+
+  // Navigate to the next Table Page
+  navigateNextPage() {
+
+    if ((this.currentPage + 1) <= this.numberOfPages) {
+
+      // Increase currentPage by one
+      this.currentPage = this.currentPage + 1;
+
+      // Load next 10 Article Records
+      this.paginatedResults = this.userPosts.slice(this.currentIndex, this.currentIndex + 10);
+      
+      // Move the list index accordingly
+      this.currentIndex = this.currentIndex + 10;
+    }
   }
 }

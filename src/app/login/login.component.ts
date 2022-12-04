@@ -10,7 +10,6 @@ import { MainService } from '../services/main.service';
 })
 export class LoginComponent implements OnInit {
 
-  // Search Form variable declaration
   loginForm!: FormGroup;
   userExists: boolean = true;
 

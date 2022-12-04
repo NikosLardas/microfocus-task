@@ -1,24 +1,24 @@
-<div id="home">
+<!-- <div id="home"> -->
 
-  <div id="navbar">
-      <nav class="navbar navbar-brand navbar-dark bg-primary py-1">
+  <div id="navbar-home" class="">
+      <nav class="navbar text-white navbar-dark bg-primary py-1" >
       <div class="container-fluid justify-content-between">
           <div class="fs-2 ms-5">
           Home
           </div>
           <div id="status-message">
             <div  class="mx-5 mt-1" *ngIf="userLoggedIn; else notLoggedInMessage">
-              <span class="me-4 fs-6">Welcome {{currentUser.name}}!</span>
-              <button type="button" class="btn btn-primary border border-3 border-secondary bg-success py-0 px-3 mb-1 me-3 rounded-5 ">
+              <span class="me-4">Welcome {{currentUser.name}}!</span>
+              <button type="button" (click)="navigateAddPost()" class="btn btn-primary border border-3 border-secondary bg-success mb-1 me-3 app-buttons rounded-5">
                 New Post
               </button>
-              <button type="button" class="btn btn-primary border border-3 border-secondary bg-success py-0 px-4 mb-1 rounded-5">
+              <button type="button" (click)="logout()" class="btn btn-primary border border-3 border-secondary bg-success mb-1 app-buttons rounded-5">
                   Log out
               </button>
             </div>
             <ng-template #notLoggedInMessage >
               <span class="me-4">You are not logged in</span>
-              <button type="button" (click)="navigatePostForm()" class="btn btn-primary border border-3 border-secondary bg-success py-0 px-5 mb-1 rounded-5">
+              <button type="button" (click)="navigateLogin()" class="btn btn-primary border border-3 border-secondary bg-success app-buttons mb-1 rounded-5">
                   Log in
               </button>
             </ng-template>
@@ -37,32 +37,48 @@
   </div>
 
   <ng-template #userPostsTable>
-    <div id="posts-table" class="d-flex align-items-center justify-content-center my-5">
+    <div id="posts-table" class="d-flex flex-column align-items-center justify-content-center my-5">
 
-      <table class="table table-light table-hover table-bordered w-75 align-middle">
+      <table class="table table-light table-hover table-bordered w-75 h-25 align-middle">
         <thead class="table-secondary">
           <tr>
-            <th colspan="2">User</th>
-            <th colspan="10">Post</th>
+            <th style="width:15%">User</th>
+            <th >Post</th>
           </tr>
         </thead>
   
         <tbody>
-            <tr *ngFor="let userPost of userPosts;">
-              <td colspan="2">
+            <tr *ngFor="let userPost of paginatedResults;">
+              <td >
                   {{userPost.fullname}}
                   <br>
                   <a href={{userPost.website}}>{{userPost.company}}</a>
               </td>
-              <td colspan="10">
-                  <span class="fs-4 fw-bold">{{userPost.title}}</span>
-                  <br>
-                  {{userPost.body}}
+              <td >
+                <span class="fs-5 fw-bold" *ngIf="userLoggedIn && (userPost.fullname == currentUser.name); else notLoggedIn">
+                  <a href="/post/edit">{{userPost.title}}</a>
+                </span>
+                <ng-template #notLoggedIn>
+                  <span class="fs-5 fw-bold">{{userPost.title}}</span>
+                </ng-template>
+                <br>
+                {{userPost.body}}
               </td>
-            </tr>
+            </tr> 
         </tbody>
+
       </table>
+
+      <div class="d-flex justify-content-end w-75 mt-3">
+        <button [disabled]='currentPage == 1' (click)="navigatePreviousPage()" class="btn border border-0">
+          <img src="assets/left-arrow.png" alt="Previous Page" width="25" height="25">
+        </button>
+        <button [disabled]='currentPage == numberOfPages' (click)="navigateNextPage()" class="btn border border-0">
+          <img src="assets/right-arrow.png" alt="Next Page" width="25" height="25">
+        </button>
+      </div>
+
     </div>
   </ng-template>
 
-</div>
+<!-- </div> -->
