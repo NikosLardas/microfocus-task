@@ -15,6 +15,7 @@ export class MainService {
   users!: User[];
   userPosts!: UserPost[];
   currentUser!: User;
+  currentPost!: UserPost;
 
   constructor(private http: HttpClient) {}
 

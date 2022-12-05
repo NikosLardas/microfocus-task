@@ -4,13 +4,14 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PostFormGuard } from './guards/post-form.guard';
 
 // Routing Paths defined with corresponding components
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'post/add', component: PostFormComponent},
-  { path: 'post/edit', component: PostFormComponent},
+  { path: 'post/add', canDeactivate: [PostFormGuard], component: PostFormComponent},
+  { path: 'post/edit', canDeactivate: [PostFormGuard], component: PostFormComponent},
   { path: '**', component: ErrorPageComponent}
   
 ];

@@ -56,7 +56,7 @@
               </td>
               <td >
                 <span class="fs-5 fw-bold" *ngIf="userLoggedIn && (userPost.fullname == currentUser.name); else notLoggedIn">
-                  <a href="/post/edit">{{userPost.title}}</a>
+                  <a class="link-primary" style="cursor: pointer;" (click)="navigateEditForm(userPost)">{{userPost.title}}</a>
                 </span>
                 <ng-template #notLoggedIn>
                   <span class="fs-5 fw-bold">{{userPost.title}}</span>

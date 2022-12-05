@@ -90,6 +90,12 @@ export class HomeComponent implements OnInit {
     this.router.navigateByUrl('/post/add');
   }
 
+  navigateEditForm(currentPost: UserPost) {
+
+    this.service.currentPost = currentPost;
+    this.router.navigateByUrl('/post/edit');
+  }
+
   logout() {
     localStorage.removeItem("userId");
     window.location.reload();

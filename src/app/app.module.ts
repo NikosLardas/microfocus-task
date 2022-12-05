@@ -10,6 +10,7 @@ import { MainService } from './services/main.service';
 import { PostFormComponent } from './post-form/post-form.component';
 import { LoginComponent } from './login/login.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import { PostFormGuard } from './guards/post-form.guard';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [MainService],
+  providers: [MainService,PostFormGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
