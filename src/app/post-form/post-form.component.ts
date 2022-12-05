@@ -4,10 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../model/user';
 import { MainService } from '../services/main.service';
-
-// import * from 'bootstrap';
 import * as bootstrap from 'bootstrap';
-import { PostFormGuard } from '../guards/post-form.guard';
 
 @Component({
   selector: 'app-post-form',
@@ -20,9 +17,9 @@ export class PostFormComponent implements OnInit {
   currentUser!: User;
   currentPost!: UserPost;
   newPost: boolean = true;
+  formSubmitted: boolean = false;
 
   deleteConfirmModal!: bootstrap.Modal;
-  navigateAwayConfirmModal!: bootstrap.Modal;
 
   constructor(private service: MainService, private formBuilder: FormBuilder, private router: Router) { }
 
@@ -35,6 +32,8 @@ export class PostFormComponent implements OnInit {
 
     this.currentUser = this.service.currentUser;
     this.currentPost = this.service.currentPost;
+    console.log("passed through init and variable had value " + this.formSubmitted)
+    this.formSubmitted = false;
 
     if (this.currentPost != null) {
       this.fillData();
@@ -42,6 +41,8 @@ export class PostFormComponent implements OnInit {
   }
 
   formSubmit() {
+
+    this.formSubmitted = true;
 
     let title = this.postForm.get('title')?.value;
     let message = this.postForm.get('message')?.value;
@@ -56,6 +57,7 @@ export class PostFormComponent implements OnInit {
         `http://www.${this.currentUser.website}`);
 
       this.service.userPosts.unshift(newUserPost);
+      this.service.postAction = "create";
 
     } else {
 
@@ -66,6 +68,7 @@ export class PostFormComponent implements OnInit {
       this.currentPost.body = message;
 
       this.service.userPosts[currentPostIndex] = this.currentPost;
+      this.service.postAction = "update";
     }
 
     localStorage.setItem("userPosts", JSON.stringify(this.service.userPosts));
@@ -82,6 +85,8 @@ export class PostFormComponent implements OnInit {
 
   deletePost() {
 
+    this.formSubmitted = true;
+    
     this.deleteConfirmModal.hide();
 
     let currentPostIndex = this.service.userPosts.indexOf(this.currentPost);
@@ -89,6 +94,8 @@ export class PostFormComponent implements OnInit {
     this.service.userPosts.splice(currentPostIndex, 1);
 
     localStorage.setItem("userPosts", JSON.stringify(this.service.userPosts));
+
+    this.service.postAction = "delete"
 
     this.router.navigateByUrl("/");
 

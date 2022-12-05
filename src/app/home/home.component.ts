@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   loading: boolean = true;
   userLoggedIn: boolean = false;
   currentUser!: User;
+  postAction: String = "";
   
   // Pagination variables
   numberOfPages!: number;
@@ -25,15 +26,19 @@ export class HomeComponent implements OnInit {
   currentIndex: number = 10;
   paginatedResults!: UserPost[];
 
-  constructor(private service: MainService, private router: Router) { }
+  constructor(private service: MainService, private router: Router) {}
 
   ngOnInit(): void {
 
     let currentUserId = localStorage.getItem("userId");
 
-    // Maybe separate things to different methods to be clear
+    this.postAction = this.service.postAction;
 
+    // Double check everything works correctly!!!!
+    // Maybe separate things to different methods to be clear
     // UserPosts in localStorage should be encrypted
+    // Recheck how I'm checking what happened before and posting message (postAction)
+    // Clear all files, then make comments and submit
 
     this.service.getAllData().subscribe({
       next: data => {

@@ -8,11 +8,10 @@ import { PostFormComponent } from '../post-form/post-form.component';
 export class PostFormGuard implements CanDeactivate<PostFormComponent> {
   canDeactivate(component: PostFormComponent): boolean {
 
-    if(component.postForm.dirty) {
+    if(component.postForm.dirty && !component.formSubmitted) {
       return confirm("Are you sure you want to navigate away and lose changes to the form?");
     }
 
     return true;
-  }
-  
+  } 
 }

@@ -37,7 +37,22 @@
   </div>
 
   <ng-template #userPostsTable>
+
     <div id="posts-table" class="d-flex flex-column align-items-center justify-content-center my-5">
+
+      <div class="text-start w-75">
+        <div class="mb-2" *ngIf="postAction == 'create'">
+          <span class="fs-5 fw-bold text-success">A new post was saved successfully</span>
+        </div>
+      
+        <div class="mb-2" *ngIf="postAction == 'update'">
+          <span class="fs-5 fw-bold text-success">Post was updated successfully</span>
+        </div>
+      
+        <div class="mb-2" *ngIf="postAction == 'delete'">
+          <span class="fs-5 fw-bold text-success">Post was deleted successfully</span>
+        </div>
+      </div>
 
       <table class="table table-light table-hover table-bordered w-75 h-25 align-middle">
         <thead class="table-secondary">
