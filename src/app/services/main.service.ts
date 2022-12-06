@@ -16,7 +16,9 @@ export class MainService {
   userPosts!: UserPost[];
   currentUser!: User;
   currentPost!: UserPost;
+  newPost: boolean = true;
   postAction: String = "";
+
 
   constructor(private http: HttpClient) {}
 

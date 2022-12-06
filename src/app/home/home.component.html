@@ -1,55 +1,53 @@
-<!-- <div id="home"> -->
-
+<div id="home">
+  
   <div id="navbar-home" class="">
       <nav class="navbar text-white navbar-dark bg-primary py-1" >
-      <div class="container-fluid justify-content-between">
-          <div class="fs-2 ms-5">
-          Home
-          </div>
-          <div id="status-message">
-            <div  class="mx-5 mt-1" *ngIf="userLoggedIn; else notLoggedInMessage">
-              <span class="me-4">Welcome {{currentUser.name}}!</span>
-              <button type="button" (click)="navigateAddPost()" class="btn btn-primary border border-3 border-secondary bg-success mb-1 me-3 app-buttons rounded-5">
-                New Post
-              </button>
-              <button type="button" (click)="logout()" class="btn btn-primary border border-3 border-secondary bg-success mb-1 app-buttons rounded-5">
-                  Log out
-              </button>
+        <div class="container-fluid justify-content-between">
+            <div class="fs-2 ms-5">
+            Home
             </div>
-            <ng-template #notLoggedInMessage >
-              <span class="me-4">You are not logged in</span>
-              <button type="button" (click)="navigateLogin()" class="btn btn-primary border border-3 border-secondary bg-success px-5 py-0 mb-1 me-4 rounded-5">
-                  Log in
-              </button>
-            </ng-template>
-          </div>
-
-      </div>
+            <div id="status-message">
+              <div  class="mx-5 mt-1" *ngIf="userLoggedIn; else notLoggedInMessage">
+                <span class="me-4">Welcome {{currentUser.name}}!</span>
+                <button type="button" (click)="navigateAddPost()" class="btn btn-primary border border-3 border-secondary bg-success mb-1 me-3 app-buttons rounded-5">
+                  New Post
+                </button>
+                <button type="button" (click)="logout()" class="btn btn-primary border border-3 border-secondary bg-success mb-1 app-buttons rounded-5">
+                    Log out
+                </button>
+              </div>
+              <ng-template #notLoggedInMessage >
+                <span class="me-4">You are not logged in</span>
+                <button type="button" (click)="navigateLogin()" class="btn btn-primary border border-3 border-secondary bg-success px-5 py-0 mb-1 me-4 rounded-5">
+                    Log in
+                </button>
+              </ng-template>
+            </div>
+        </div>
       </nav>
   </div>
 
   <div class="mt-4" *ngIf="loading; else userPostsTable">
     <p class="fs-1 text-center">Posts Loading...</p>
     <div class="d-flex justify-content-center">
-      <div class="spinner-border" role="status">
-      </div>
+      <div class="spinner-border" role="status"></div>
     </div>
   </div>
 
   <ng-template #userPostsTable>
 
-    <div id="posts-table" class="d-flex flex-column align-items-center justify-content-center my-5">
+    <div id="userposts-table" class="d-flex flex-column align-items-center justify-content-center my-5">
 
-      <div class="text-start w-75">
-        <div class="mb-2" *ngIf="postAction == 'create'">
+      <div class="text-start w-75" style="height:30px;">
+        <div class="mb-2" *ngIf="(postAction == 'create' && showMessage)">
           <span class="fs-5 fw-bold text-success">A new post was saved successfully</span>
         </div>
       
-        <div class="mb-2" *ngIf="postAction == 'update'">
+        <div class="mb-2" *ngIf="(postAction == 'update' && showMessage)">
           <span class="fs-5 fw-bold text-success">Post was updated successfully</span>
         </div>
       
-        <div class="mb-2" *ngIf="postAction == 'delete'">
+        <div class="mb-2" *ngIf="(postAction == 'delete' && showMessage)">
           <span class="fs-5 fw-bold text-success">Post was deleted successfully</span>
         </div>
       </div>
@@ -96,4 +94,4 @@
     </div>
   </ng-template>
 
-<!-- </div> -->
+</div>

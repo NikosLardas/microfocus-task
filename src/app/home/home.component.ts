@@ -1,3 +1,6 @@
+
+// Note: The UserPosts array that is stored in localStorage should be encrypted for security reasons
+
 import { UserPost } from './../model/user-post';
 import { Post } from './../model/post';
 import { User } from './../model/user';
@@ -19,6 +22,7 @@ export class HomeComponent implements OnInit {
   userLoggedIn: boolean = false;
   currentUser!: User;
   postAction: String = "";
+  showMessage: boolean = true;
   
   // Pagination variables
   numberOfPages!: number;
@@ -28,17 +32,13 @@ export class HomeComponent implements OnInit {
 
   constructor(private service: MainService, private router: Router) {}
 
+  // Clear all files, then make comments and submit
+
   ngOnInit(): void {
 
     let currentUserId = localStorage.getItem("userId");
 
     this.postAction = this.service.postAction;
-
-    // Double check everything works correctly!!!!
-    // Maybe separate things to different methods to be clear
-    // UserPosts in localStorage should be encrypted
-    // Recheck how I'm checking what happened before and posting message (postAction)
-    // Clear all files, then make comments and submit
 
     this.service.getAllData().subscribe({
       next: data => {
@@ -64,13 +64,19 @@ export class HomeComponent implements OnInit {
         }
       }
     });
+
+    if(this.postAction != '') {
+      this.showSuccessMessage();
+    }
   }
 
   createUserPosts() {
         
     for (let user of this.users) {
       for (let post of this.posts) {
-        if(user.id == post.userId) this.userPosts.push(new UserPost(user.name,user.company.name,post.title,post.body,`http://www.${user.website}`));
+        if(user.id == post.userId) this.userPosts.push(
+          new UserPost(user.name,user.company.name,post.title,post.body,`http://www.${user.website}`)
+        );
       }
     }
 
@@ -92,11 +98,12 @@ export class HomeComponent implements OnInit {
   }
 
   navigateAddPost() {
+    this.service.newPost = true;
     this.router.navigateByUrl('/post/add');
   }
 
   navigateEditForm(currentPost: UserPost) {
-
+    this.service.newPost = false;
     this.service.currentPost = currentPost;
     this.router.navigateByUrl('/post/edit');
   }
@@ -136,5 +143,12 @@ export class HomeComponent implements OnInit {
       // Move the list index accordingly
       this.currentIndex = this.currentIndex + 10;
     }
+  }
+
+  showSuccessMessage() {
+    setTimeout( () => {
+      this.showMessage = false;;
+   }, 5000);
+   this.service.postAction = '';
   }
 }

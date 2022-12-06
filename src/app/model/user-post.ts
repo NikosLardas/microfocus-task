@@ -1,4 +1,3 @@
-import { Company } from './company';
 
 export class UserPost {
 

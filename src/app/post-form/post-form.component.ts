@@ -1,5 +1,5 @@
 import { UserPost } from './../model/user-post';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../model/user';
@@ -32,10 +32,10 @@ export class PostFormComponent implements OnInit {
 
     this.currentUser = this.service.currentUser;
     this.currentPost = this.service.currentPost;
-    console.log("passed through init and variable had value " + this.formSubmitted)
+    this.newPost = this.service.newPost;
     this.formSubmitted = false;
 
-    if (this.currentPost != null) {
+    if (!this.newPost) {
       this.fillData();
     }
   }
@@ -79,26 +79,19 @@ export class PostFormComponent implements OnInit {
   fillData() {
     this.postForm.get('title')?.setValue(this.currentPost.title);
     this.postForm.get('message')?.setValue(this.currentPost.body);
-
-    this.newPost = false;
   }
 
   deletePost() {
 
     this.formSubmitted = true;
-    
     this.deleteConfirmModal.hide();
 
     let currentPostIndex = this.service.userPosts.indexOf(this.currentPost);
-
     this.service.userPosts.splice(currentPostIndex, 1);
-
     localStorage.setItem("userPosts", JSON.stringify(this.service.userPosts));
 
     this.service.postAction = "delete"
-
     this.router.navigateByUrl("/");
-
   }
 
   openModal(element: any) {
@@ -109,5 +102,4 @@ export class PostFormComponent implements OnInit {
   navigateHome() {
     this.router.navigateByUrl("/");
   }
-
 }
