@@ -54,12 +54,15 @@ export class HomeComponent implements OnInit {
       },
       error: error => console.log(error),
       complete: () => {
+
         if (localStorage.getItem('userPosts') == null) {
-          this.createUserPosts();
+          this.createUserPosts(currentUserId);
         } else {
           this.userPosts = JSON.parse(localStorage.getItem('userPosts')!);
           this.loading = false;
-          this.service.userPosts = this.userPosts
+          this.service.userPosts = this.userPosts;
+
+          if (currentUserId != null) this.sortForUser();
           this.handlePagination();
         }
       }
@@ -70,7 +73,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  createUserPosts() {
+  createUserPosts(currentUserId: String | null) {
         
     for (let user of this.users) {
       for (let post of this.posts) {
@@ -81,11 +84,28 @@ export class HomeComponent implements OnInit {
     }
 
     localStorage.setItem("userPosts", JSON.stringify(this.userPosts));
+
+    if (currentUserId != null) this.sortForUser();
     
     this.loading = false;
     this.service.userPosts = this.userPosts;
 
     this.handlePagination();
+  }
+
+  sortForUser() {
+    this.userPosts.sort((n1,n2) => {
+
+      if ((n1.fullname == this.currentUser.name) && n2.fullname != this.currentUser.name) {
+          return -1;
+      }
+  
+      if ((n1.fullname != this.currentUser.name) && n2.fullname == this.currentUser.name) {
+          return 1;
+      }
+  
+      return 0;
+    });
   }
 
   handlePagination() {
