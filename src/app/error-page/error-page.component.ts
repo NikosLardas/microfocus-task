@@ -1,3 +1,9 @@
+/*
+    Typescript Code for the Error Page Component
+    Author: Nikos Lardas
+    Created: 12.2022
+*/
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({

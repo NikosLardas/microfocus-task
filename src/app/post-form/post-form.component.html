@@ -1,4 +1,12 @@
+<!-- 
+    HTML Code for the Post Form Component
+    Author: Nikos Lardas
+    Created: 12.2022
+-->
+
 <div id="post-form">
+
+    <!-- Navigation bar -->
     <div id="navbar-postform">
         <nav class="navbar text-white navbar-dark bg-primary py-1">
         <div class="container-fluid justify-content-between">
@@ -16,42 +24,46 @@
         </nav>
     </div>
 
+    <!-- Post Form -->
     <div class="container-fluid d-flex my-5 p-5">
 
         <form [formGroup]='postForm' (ngSubmit)='formSubmit()' class="w-100" novalidate>
 
             <label for="title" class="form-label fs-5 fw-bold">Title</label>
             <input type="text" formControlName="title" class="form-control rounded-0" placeholder="Please enter post title"
-            [ngClass]="postForm.invalid && postForm.get('title')?.touched? 'border border-danger border-3' : 'border border-secondary border-3'">
+            [ngClass]="(postForm.get('title')?.errors?.['required'] && postForm.get('title')?.touched) || postForm.get('title')?.errors?.['maxlength']? 
+            'border border-danger border-3' : 'border border-secondary border-3'">
 
             <!-- Required and touched validation -->
             <div class="text-danger fw-bold mt-2 text-end"
-            *ngIf=" postForm.get('title')?.errors?.['required'] && postForm.get('title')?.touched">
+            *ngIf="postForm.get('title')?.errors?.['required'] && postForm.get('title')?.touched">
             Please insert a post title
             </div>
 
             <!-- Max Length and touched validation -->
             <div class="text-danger fw-bold mt-2 text-end"
-            *ngIf=" postForm.get('title')?.errors?.['maxlength'] && postForm.get('title')?.touched">
+            *ngIf="postForm.get('title')?.errors?.['maxlength'] && postForm.get('title')?.touched">
             The title cannot be longer than 200 characters!
             </div>
 
             <label for="message" class="form-label fs-5 fw-bold mt-3">Message</label>
             <textarea formControlName="message" class="form-control rounded-0" placeholder="Please Insert Bug Description" rows="6"
-            [ngClass]=" postForm.invalid && postForm.get('message')?.touched? 'border border-danger border-3' : 'border border-secondary border-3'"></textarea>
+            [ngClass]="(postForm.get('message')?.errors?.['required'] && postForm.get('message')?.touched) || postForm.get('message')?.errors?.['maxlength']? 
+            'border border-danger border-3' : 'border border-secondary border-3'"></textarea>
 
             <!-- Required and touched validation -->
             <div class="text-danger fw-bold mt-2 text-end"
-            *ngIf=" postForm.get('message')?.errors?.['required'] && postForm.get('message')?.touched">
+            *ngIf="postForm.get('message')?.errors?.['required'] && postForm.get('message')?.touched">
             Please insert a post message
             </div>
 
             <!-- Max Length and touched validation -->
             <div class="text-danger fw-bold mt-2 text-end"
-            *ngIf=" postForm.get('message')?.errors?.['maxlength'] && postForm.get('message')?.touched">
+            *ngIf="postForm.get('message')?.errors?.['maxlength'] && postForm.get('message')?.touched">
             The message cannot be longer than 2000 characters!
             </div>
 
+            <!-- Form Buttons for userPost Add, Edit, Delete and Cancel Action-->
             <div class="d-flex w-100 mt-4" [ngClass]=" newPost? 'justify-content-end' : 'justify-content-between'">
                 <div *ngIf="!newPost">
                     <button type="button" (click)="openModal(deleteConfirmModal)" class="btn btn-danger border border-3 border-secondary app-buttons rounded-5">
@@ -62,7 +74,7 @@
                     <button [disabled]='postForm.invalid' class="btn btn-success border border-3 border-secondary app-buttons me-3 rounded-5">
                         Save
                     </button>
-                    <button [disabled]='postForm.invalid' type="reset" (click)="postForm.reset()" class="btn btn-light border border-3 border-secondary app-buttons rounded-5">
+                    <button type="button" [disabled]='postForm.invalid' (click)="navigateHome()" class="btn btn-light border border-3 border-secondary app-buttons rounded-5">
                         Cancel
                     </button>
                 </div>
@@ -71,7 +83,7 @@
 
     </div>
 
-
+    <!-- Modal for userPost Deletion Confirmation -->
     <div id="deleteConfirmModal" class="modal fade" #deleteConfirmModal tabindex="-1" data-bs-backdrop="static" aria-labelledby="deleteConfirmModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -85,4 +97,5 @@
             </div>
         </div>
     </div>
+
 </div>

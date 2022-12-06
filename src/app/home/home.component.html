@@ -1,5 +1,12 @@
+<!-- 
+    HTML Code for the Home Component
+    Author: Nikos Lardas
+    Created: 12.2022
+-->
+
 <div id="home">
   
+  <!-- Navigation bar with conditional messages -->
   <div id="navbar-home" class="">
       <nav class="navbar text-white navbar-dark bg-primary py-1" >
         <div class="container-fluid justify-content-between">
@@ -27,6 +34,7 @@
       </nav>
   </div>
 
+  <!-- Loading Spinner until the data are available -->
   <div class="mt-4" *ngIf="loading; else userPostsTable">
     <p class="fs-1 text-center">Posts Loading...</p>
     <div class="d-flex justify-content-center">
@@ -36,8 +44,10 @@
 
   <ng-template #userPostsTable>
 
+    <!-- UserPosts Table -->
     <div id="userposts-table" class="d-flex flex-column align-items-center justify-content-center my-5">
 
+      <!-- Post Add, Edit and Delete success messages, displayed conditionally -->
       <div class="text-start w-75" style="height:30px;">
         <div class="mb-2" *ngIf="(postAction == 'create' && showMessage)">
           <span class="fs-5 fw-bold text-success">A new post was saved successfully</span>
@@ -60,6 +70,7 @@
           </tr>
         </thead>
   
+        <!-- Table body displaying userPosts in appropriate format -->
         <tbody>
             <tr *ngFor="let userPost of paginatedResults;">
               <td >
@@ -82,6 +93,7 @@
 
       </table>
 
+      <!-- Pagination arrows -->
       <div class="d-flex justify-content-end w-75 mt-3">
         <button [disabled]='currentPage == 1' (click)="navigatePreviousPage()" class="btn border border-0">
           <img src="assets/left-arrow.png" alt="Previous Page" width="25" height="25">

@@ -1,5 +1,12 @@
+<!-- 
+    HTML Code for the Login Component
+    Author: Nikos Lardas
+    Created: 12.2022
+-->
+
 <div id="login">
 
+  <!-- Navigation Bar -->
   <div id="navbar-login">
     <nav class="navbar text-white navbar-dark bg-primary py-1">
       <div class="fs-2 ms-5">
@@ -8,6 +15,7 @@
     </nav>
   </div>
 
+  <!-- Login Form definition -->
   <div id="login-form" class="d-flex justify-content-center align-items-center h-100 p-5 m-5 ">
 
     <form [formGroup]='loginForm' (ngSubmit)='formSubmit()' class="w-25 mt-5 input-group input-group-sm" novalidate>
@@ -17,18 +25,20 @@
                                        class="form-control w-100 rounded-0 border border-secondary border-3 " 
                                        placeholder="Please enter your username"
                                        [ngClass]=" userExists? 'border-secondary' : 'border-danger'">
-
+      <!-- Required and touched validation -->
       <div class="text-danger fw-bold mt-2"
       *ngIf="loginForm.get('username')?.errors?.['required'] && loginForm.get('username')?.touched">
       Please enter your username to continue
       </div>
- 
+
+       <!--  Form submission button -->
       <div class="d-flex justify-content-end w-100">
         <button [disabled]='loginForm.invalid' type="submit" class="btn btn-success border border-3 border-secondary app-buttons mt-3 rounded-5">
           Log in
         </button>
       </div>
 
+      <!-- Invalid user name and touched validation -->
       <div class="text-danger fw-bold mt-2"
       *ngIf="!userExists && loginForm.get('username')?.dirty">
       Not a valid user name!

@@ -1,3 +1,8 @@
+/*
+  Typescript Code for the User Post Model
+  Author: Nikos Lardas
+  Created: 12.2022
+*/
 
 export class UserPost {
 
