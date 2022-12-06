@@ -56,7 +56,7 @@
         <thead class="table-secondary">
           <tr>
             <th style="width:15%">User</th>
-            <th >Post</th>
+            <th>Post</th>
           </tr>
         </thead>
   
@@ -67,7 +67,7 @@
                   <br>
                   <a href={{userPost.website}}>{{userPost.company}}</a>
               </td>
-              <td >
+              <td>
                 <span class="fs-5 fw-bold" *ngIf="userLoggedIn && (userPost.fullname == currentUser.name); else notLoggedIn">
                   <a class="link-primary" style="cursor: pointer;" (click)="navigateEditForm(userPost)">{{userPost.title}}</a>
                 </span>
